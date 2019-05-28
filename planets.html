@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="planets.css" rel="stylesheet" />
+</head>
+<body onload="startGame()">
+	
+<script>
+
+	//these variables determine the initial game state
+	var planetCount = 10; //don't be dumb and make this something less than 2
+
+	//these variables hold the data for the game
+	var Planets = [];
+	var Inventory = [];
+	var Knowledge = [];
+	var Location = 0;
+
+function startGame() {
+	generatePlanets();
+}
+
+function generatePlanets() {
+	Planets[0] = {};
+	Planets[0].name = "Home Planet";
+	Planets[0].connections[0] = 1;
+	Planets[0].temperature = 0;
+	Planets[0].size = 0;
+	Planets[0].atmosphere = 0;
+	Knowledge[i] = 4;
+	for (var i = 1; i < planetCount; i++) {
+		Planets[i] = {};
+		Planets[i].name = "Planet " + i;
+		Planets[i].connections[0] = i - 1; //this needs work
+		Planets[i].connections[1] = Math.floor(Math.random() * 10); //this needs work
+		Planets[i].temperature = Math.floor(Math.random() * 10) - 5;
+		Planets[i].size = Math.floor(Math.random() * 10);
+		Planets[i].atmosphere = Math.floor(Math.random() * 10);
+		Knowledge[i] = 0;
+	}
+}
+
+function travel(index) {
+	Location = Planets[Location].connections[index];
+	updateDescription();
+}
+
+function explore() {
+	if (Knowledge[Location] < 4)
+		Knowledge++;
+	updateDescription();
+}
+
+function updateDescription() {
+	var text = "";
+	if (Knowledge[Location] > 0) {
+		text = Planets[Location].name + " is a ";
+		if (Knowledge[Location] > 1) {
+			switch (Planets[Location].size) {
+				case 0: text += " tiny ball of rock "; break;
+				case 1: text += " small ball of rock "; break;
+				case 2: text += " ball of rock "; break;
+				case 3: text += " small planetoid "; break;
+				case 4: text += " normal planet "; break;
+				case 5: text += " large planet "; break;
+				case 6: text += " giant planet "; break;
+				case 7: text += " small star "; break;
+				case 8: text += " star "; break;
+				case 9: text += " giant star "; break;
+			}
+			if (Knowledge[Location] > 2) {
+				switch (Planets[Location].temperature) {
+					case -4: text += " with a surface just above absolute zero."; break;
+					case -3: text += " which is colder than you have ever felt."; break;
+					case -2: text += " where all liquids solidify."; break;
+					case -1: text += " which is a bit cool."; break;
+					case 1: text += " which is somewhat warm."; break;
+					case 2: text += " with a scorching hot surface."; break;
+					case 3: text += " that is so hot it melts metal."; break;
+					case 4: text += " that is so hot it burns a brilliant violet."; break;
+				}
+				if (Knowledge[Location] > 3) {
+					switch (Planets[Location].atmosphere) {
+						case 0: "It has not atmosphere that you can detect."; break;
+						case 1: "It has a incredibly weak, transient atmosphere."; break;
+						case 0: "It has a weak atmosphere that it barely clings on to."; break;
+						case 0: "It has a thing, but distinct, atmosphere."; break;
+						case 0: "It has an atmosphere, with a pressure that you would feel at home in."; break;
+						case 0: "It has a thick atmosphere that makes breathing a bit difficult."; break;
+						case 0: "It has a dense atmosphere that pushes in on you from all sides."; break;
+						case 0: "It has an atmosphere so dense traveling through it is more like swimming than flying."; break;
+						case 0: "It has an incredibly thick atmosphere that crushes anything which enters it."; break;
+						case 0: "It has an atmosphere so thick that gasses are compressed into solids."; break;
+					}
+				}
+			}
+			else {
+				text += "drifting through the void.";
+			}
+		}
+		else {
+			text += "planet of which you know little.";
+		}
+	}
+	else {
+		text = "An unknown planet.";
+	}
+
+	document.getElementById("planetDescription").innerHTML = text;
+}
+	</script>
+	<div id="quest">
+		<h3 id="questTitle">Quest</h3>
+		<p id="questText">You're planet is getting hotter!</p>
+		<p id="optionA">Cool it down!</p>
+		<p id="optionB">Heat it up faster!</p>
+	</div>
+	<div id="log">
+		<h3 id="logTitle">Event Log</h3>
+		<p id="log"></p>
+	</div>
+	<div id="description">
+		<h3 id="descriptionTitle">Planet Description</h3>
+		<p id="planetDescription">A lonely ball of rock, floating in the void.</p>
+	</div>
+	<div id="actions">
+		<h3 id="actionsTitle">Actions</h3>
+		<button id="exploreButton" onmouseup="changeText()">Explore</button>
+		<button id="planet1Button" onmouseup="changeText()">Planet 1</button>
+		<button id="planet2Button" onmouseup="changeText()">Planet 2</button>
+		<button id="planet3Button" onmouseup="changeText()">Planet 3</button>
+	</div>
+	<div id="inventory">
+		<h3 id="inventoryTitle">Inventory</h3>
+		<p id="waterCounter">Water</p>
+		<p id="metalsCounter">Metals</p>
+		<p id="gasCounter">Gas</p>
+	</div>
+</body>
+</html><!DOCTYPE html>
